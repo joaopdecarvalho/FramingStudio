@@ -5,6 +5,7 @@ let state = {
   artW:30, artH:40, lockRatio:false, marginTarget:5, optical:false, moulding:2, depth:2.5,
   ppColor:"#fdfdfb", frameColor:"#c89f6b",
   sel:{type:"auto"},                 // {type:'auto'} | {type:'shop',i,rot} | {type:'custom'}
+  pp:{type:"custom"},                // {type:'custom'} | {type:'shop',i,rot} — passe-partout choice
   customW:40, customH:50,
 };
 let rot = {x:0, y:0};                // 3D view angle (deg), not persisted
@@ -23,4 +24,5 @@ function save(){
 (function clampState(){
   const B={artW:[5,120],artH:[5,120],marginTarget:[0,20],moulding:[0.5,8],depth:[0.5,8],customW:[10,200],customH:[10,200]};
   for(const k in B) state[k]=Math.min(B[k][1],Math.max(B[k][0],state[k]));
+  if(!state.pp || (state.pp.type==="shop" && !PP_SHOP[state.pp.i])) state.pp={type:"custom"};
 })();

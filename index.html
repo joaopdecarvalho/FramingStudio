@@ -59,18 +59,6 @@
     </div>
 
     <div class="card">
-      <h2>Passe-partout</h2>
-      <div class="slider-field">
-        <label class="sf-label" for="marginTarget">Desired margin <output class="sf-val" id="marginTargetOut"></output></label>
-        <input type="range" id="marginTarget" min="0" max="20" step="0.1">
-      </div>
-      <label class="f" style="gap:8px; margin-bottom:14px"><input type="checkbox" id="optical"> optical centering</label>
-      <div class="sw-grid" id="ppSwatches"></div>
-      <div class="customColor">Custom <input type="color" id="ppCustom"></div>
-      <p class="hint" id="idealHint"></p>
-    </div>
-
-    <div class="card">
       <h2>Frame</h2>
       <div class="slider-field">
         <label class="sf-label" for="moulding">Moulding width <output class="sf-val" id="mouldingOut"></output></label>
@@ -82,6 +70,23 @@
       </div>
       <div class="sw-grid" id="frSwatches"></div>
       <div class="customColor">Custom <input type="color" id="frCustom"></div>
+    </div>
+
+    <div class="card">
+      <h2>Passe-partout</h2>
+      <label class="sf-label" for="ppSelect">Size</label>
+      <select id="ppSelect" class="select"></select>
+      <p class="hint" id="ppInfo" style="margin:8px 0 14px"></p>
+      <div id="ppCustomCtl">
+        <div class="slider-field">
+          <label class="sf-label" for="marginTarget">Desired margin <output class="sf-val" id="marginTargetOut"></output></label>
+          <input type="range" id="marginTarget" min="0" max="20" step="0.1">
+        </div>
+        <label class="f" style="gap:8px; margin-bottom:14px"><input type="checkbox" id="optical"> optical centering</label>
+      </div>
+      <div class="sw-grid" id="ppSwatches"></div>
+      <div class="customColor">Custom <input type="color" id="ppCustom"></div>
+      <p class="hint" id="idealHint"></p>
     </div>
 
     <div class="card">

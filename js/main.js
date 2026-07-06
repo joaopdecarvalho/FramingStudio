@@ -41,6 +41,18 @@ num("marginTarget","marginTarget",0,20); num("moulding","moulding",0.5,8);
 num("depthIn","depth",0.5,8);
 num("customW","customW",10,200); num("customH","customH",10,200);
 $("optical").addEventListener("change",e=>{ state.optical=e.target.checked; save(); renderAll(); });
+/* standard passe-partout: picking one also selects the frame it belongs to */
+$("ppSelect").addEventListener("change",e=>{
+  const v=e.target.value;
+  if(v==="custom"){ state.pp={type:"custom"}; }
+  else{
+    const i=+v, f=ppFitInfo(i);
+    state.pp={type:"shop", i, rot:f.rot};
+    const si=shopIndexFor(f.ow,f.oh);
+    if(si>=0) state.sel={type:"shop", i:si, rot: Math.abs(SHOP[si][0]-f.ow)<0.05 ? 0 : 1};
+  }
+  save(); renderAll();
+});
 $("customRow").addEventListener("click",()=>{ state.sel={type:"custom"}; save(); renderAll(); });
 $("frCustom").addEventListener("input",e=>{ state.frameColor=e.target.value; save(); renderAll(); });
 $("ppCustom").addEventListener("input",e=>{ state.ppColor=e.target.value; save(); renderAll(); });

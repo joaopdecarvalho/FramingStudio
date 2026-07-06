@@ -13,6 +13,26 @@ const ART_PRESETS = [
 ];
 const SHOP_LABEL = i => (SHOP[i][0]===59.4 ? "59.4 × 84.1 (DIN A1)" : `${SHOP[i][0]} × ${SHOP[i][1]}`);
 
+/* standard passe-partouts sold pre-cut: [outerW, outerH, windowW, windowH] (cm).
+   Outer sizes match the shop frames; edit to mirror your local shop's catalogue. */
+const PP_SHOP = [
+  [24,30, 13,18],
+  [24,30, 15,20],
+  [30,30, 20,20],
+  [30,40, 20,30],
+  [30,40, 21,29.7],
+  [40,40, 30,30],
+  [40,50, 30,40],
+  [50,60, 40,50],
+  [50,70, 30,45],
+  [50,70, 40,60],
+  [59.4,84.1, 42,59.4],
+  [60,60, 40,40],
+  [60,80, 40,60],
+  [60,80, 50,70],
+  [70,100, 50,70],
+];
+
 const FRAME_COLORS = [
   ["Natural Oak","#c89f6b"],["White Oak","#e9e3d5"],["Dark Oak","#5b4634"],["Black Oak","#2e2a26"],
   ["Black Alu","#1c1c1e"],["White","#f4f2ee"],["Gold","#c9a254"],["Silver","#c0c0c4"],

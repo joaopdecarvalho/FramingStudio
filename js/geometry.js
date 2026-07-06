@@ -40,12 +40,66 @@ function resolveFrame(){
     const e = evalSize(state.customW, state.customH);
     cur = { custom:true, w:state.customW, h:state.customH, ...(e||{dead:true, mx:(state.customW-state.artW)/2, my:(state.customH-state.artH)/2}) };
   }
+
+  // a standard passe-partout only makes sense while the frame matches its
+  // outer size — revert to custom cut when the frame changes underneath it
+  if(state.pp.type==="shop"){
+    const [ow,oh]=ppOriented(state.pp.i, state.pp.rot);
+    if(!cur || cur.dead || Math.abs(ow-cur.w)>0.05 || Math.abs(oh-cur.h)>0.05)
+      state.pp={type:"custom"};
+  }
   return {cur, best, cands, valid};
 }
-function margins(cur){
+
+/* ---------------- passe-partout geometry ---------------- */
+
+const PP_MIN_WIN = 2;    // smallest sensible window (cm)
+const PP_OVERLAP = 0.3;  // art tucked behind the window per side (cm)
+
+function ppOriented(i, rot){
+  const [a,b,wa,wb]=PP_SHOP[i];
+  return rot ? [b,a,wb,wa] : [a,b,wa,wb];
+}
+/* best orientation of a standard passe-partout for the current artwork */
+function ppFitInfo(i){
+  const [a,b,wa,wb]=PP_SHOP[i];
+  const orients = (a===b && wa===wb) ? [0] : [0,1];
+  let best=null;
+  for(const rot of orients){
+    const [ow,oh,ww,wh]=ppOriented(i,rot);
+    const fitsSheet = state.artW<=ow+0.05 && state.artH<=oh+0.05;   // art fits behind the sheet
+    const covers    = state.artW>=ww-0.05 && state.artH>=wh-0.05;   // art fully covers the window
+    const crop = Math.max(0,state.artW-ww) + Math.max(0,state.artH-wh);
+    const c = {rot, ow, oh, ww, wh, ok:fitsSheet&&covers, fitsSheet, covers, crop};
+    if(!best || (c.ok&&!best.ok) || (c.ok===best.ok && c.crop<best.crop)) best=c;
+  }
+  return best;
+}
+function shopIndexFor(w,h){
+  return SHOP.findIndex(([a,b])=>(a===w&&b===h)||(a===h&&b===w));
+}
+
+/* window size + margins of the mat for the current frame & passe-partout.
+   crop = how much of the artwork the mat overlaps; gap = window larger than art. */
+function matGeom(cur){
   if(!cur) return null;
-  const mx=Math.max(0,(cur.w-state.artW)/2), tv=Math.max(0,cur.h-state.artH);
-  let top=tv/2, bottom=tv/2;
-  if(state.optical && tv>0){ top=tv*0.45; bottom=tv*0.55; }
-  return {left:mx,right:mx,top,bottom};
+  if(state.pp.type==="shop"){
+    const [ow,oh,ww,wh]=ppOriented(state.pp.i, state.pp.rot);
+    const mx=(ow-ww)/2, my=(oh-wh)/2;
+    return { mode:"shop", winW:ww, winH:wh, left:mx, right:mx, top:my, bottom:my,
+             cropX:Math.max(0,state.artW-ww), cropY:Math.max(0,state.artH-wh),
+             gapX:Math.max(0,ww-state.artW), gapY:Math.max(0,wh-state.artH) };
+  }
+  // custom cut: the window matches the artwork; asking for a margin wider than
+  // the natural (frame−art)/2 shrinks the window so the mat overlaps the art
+  const natX=Math.max(0,(cur.w-state.artW)/2), natY=Math.max(0,(cur.h-state.artH)/2);
+  const d=state.marginTarget;
+  const mx=clamp(d, natX, Math.max(natX,(cur.w-PP_MIN_WIN)/2));
+  const my=clamp(d, natY, Math.max(natY,(cur.h-PP_MIN_WIN)/2));
+  const winW=cur.w-2*mx, winH=cur.h-2*my;
+  let top=my, bottom=my;
+  if(state.optical && my>0){ top=2*my*0.45; bottom=2*my*0.55; }
+  return { mode:"custom", winW, winH, left:mx, right:mx, top, bottom, natX, natY,
+           cropX:Math.max(0,state.artW-winW), cropY:Math.max(0,state.artH-winH),
+           gapX:0, gapY:0 };
 }
