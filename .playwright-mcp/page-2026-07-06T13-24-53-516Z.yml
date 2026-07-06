@@ -1,0 +1,181 @@
+- generic [ref=f4e2]:
+  - generic [ref=f4e3]:
+    - img "artwork" [ref=f4e14]
+    - generic [ref=f4e15]:
+      - text: Frame 40 × 50 cm · outer ≈ 44 × 54 cm
+      - text: Art 30 × 40 cm · margins 5 sides / 5 top / 5 bottom cm
+    - generic [ref=f4e16]: Drag the frame to rotate in 3D · double-click to reset
+  - complementary [ref=f4e17]:
+    - heading "Framing Studio" [level=1] [ref=f4e18]
+    - paragraph [ref=f4e19]: Preview your artwork with frame & passe-partout — sizes from your local shop.
+    - generic [ref=f4e20]:
+      - heading "Artwork" [level=2] [ref=f4e21]
+      - generic [ref=f4e22]:
+        - button "Upload image" [ref=f4e23] [cursor=pointer]
+        - button "Reset" [ref=f4e24] [cursor=pointer]
+      - generic [ref=f4e25]:
+        - generic [ref=f4e26]:
+          - text: W
+          - spinbutton "W cm" [ref=f4e27]: "30"
+          - text: cm
+        - generic [ref=f4e28]:
+          - text: H
+          - spinbutton "H cm" [ref=f4e29]: "40"
+          - text: cm
+        - button "Match image ratio" [ref=f4e30] [cursor=pointer]
+      - paragraph [ref=f4e31]: You can also drag & drop an image onto the preview.
+    - generic [ref=f4e32]:
+      - heading "Passe-partout" [level=2] [ref=f4e33]
+      - generic [ref=f4e34]:
+        - generic [ref=f4e35]:
+          - text: Desired margin
+          - spinbutton "Desired margin cm" [ref=f4e36]: "5"
+          - text: cm
+        - generic [ref=f4e37]:
+          - checkbox "optical centering" [ref=f4e38]
+          - text: optical centering
+      - generic [ref=f4e39]:
+        - button "White" [ref=f4e40] [cursor=pointer]:
+          - generic [ref=f4e42]: White
+        - button "Cream" [ref=f4e43] [cursor=pointer]:
+          - generic [ref=f4e45]: Cream
+        - button "Light Grey" [ref=f4e46] [cursor=pointer]:
+          - generic [ref=f4e48]: Light Grey
+        - button "Dark Grey" [ref=f4e49] [cursor=pointer]:
+          - generic [ref=f4e51]: Dark Grey
+        - button "Black" [ref=f4e52] [cursor=pointer]:
+          - generic [ref=f4e54]: Black
+        - button "Navy" [ref=f4e55] [cursor=pointer]:
+          - generic [ref=f4e57]: Navy
+        - button "Sage" [ref=f4e58] [cursor=pointer]:
+          - generic [ref=f4e60]: Sage
+        - button "Dusty Pink" [ref=f4e61] [cursor=pointer]:
+          - generic [ref=f4e63]: Dusty Pink
+      - generic [ref=f4e64]:
+        - text: Custom
+        - textbox [ref=f4e65] [cursor=pointer]: "#fdfdfb"
+      - paragraph [ref=f4e66]: "Ideal frame for these margins: 40 × 50 cm."
+    - generic [ref=f4e67]:
+      - heading "Frame" [level=2] [ref=f4e68]
+      - generic [ref=f4e69]:
+        - generic [ref=f4e70]:
+          - text: Moulding width
+          - spinbutton "Moulding width cm" [ref=f4e71]: "2"
+          - text: cm
+        - generic [ref=f4e72]:
+          - text: Depth
+          - spinbutton "Depth cm" [ref=f4e73]: "2.5"
+          - text: cm
+      - generic [ref=f4e74]:
+        - button "Natural Oak" [ref=f4e75] [cursor=pointer]:
+          - generic [ref=f4e77]: Natural Oak
+        - button "White Oak" [ref=f4e78] [cursor=pointer]:
+          - generic [ref=f4e80]: White Oak
+        - button "Dark Oak" [ref=f4e81] [cursor=pointer]:
+          - generic [ref=f4e83]: Dark Oak
+        - button "Black Oak" [ref=f4e84] [cursor=pointer]:
+          - generic [ref=f4e86]: Black Oak
+        - button "Black Alu" [ref=f4e87] [cursor=pointer]:
+          - generic [ref=f4e89]: Black Alu
+        - button "White" [ref=f4e90] [cursor=pointer]:
+          - generic [ref=f4e92]: White
+        - button "Gold" [ref=f4e93] [cursor=pointer]:
+          - generic [ref=f4e95]: Gold
+        - button "Silver" [ref=f4e96] [cursor=pointer]:
+          - generic [ref=f4e98]: Silver
+        - button "Light Blue" [ref=f4e99] [cursor=pointer]:
+          - generic [ref=f4e101]: Light Blue
+        - button "Purple" [ref=f4e102] [cursor=pointer]:
+          - generic [ref=f4e104]: Purple
+        - button "Burgundy" [ref=f4e105] [cursor=pointer]:
+          - generic [ref=f4e107]: Burgundy
+        - button "Red" [ref=f4e108] [cursor=pointer]:
+          - generic [ref=f4e110]: Red
+        - button "Orange" [ref=f4e111] [cursor=pointer]:
+          - generic [ref=f4e113]: Orange
+        - button "Yellow" [ref=f4e114] [cursor=pointer]:
+          - generic [ref=f4e116]: Yellow
+        - button "Light Green" [ref=f4e117] [cursor=pointer]:
+          - generic [ref=f4e119]: Light Green
+        - button "Green" [ref=f4e120] [cursor=pointer]:
+          - generic [ref=f4e122]: Green
+      - generic [ref=f4e123]:
+        - text: Custom
+        - textbox [ref=f4e124] [cursor=pointer]: "#c89f6b"
+    - generic [ref=f4e125]:
+      - heading "Frame size (your shop)" [level=2] [ref=f4e126]
+      - generic [ref=f4e127]:
+        - button "✨ Auto — best match picks 40 × 50 cm" [ref=f4e128] [cursor=pointer]:
+          - generic [ref=f4e129]: ✨
+          - generic [ref=f4e130]:
+            - text: Auto — best match
+            - generic [ref=f4e131]: picks 40 × 50 cm
+        - button "40 × 50 margins 5 / 5 cm Best match" [ref=f4e132] [cursor=pointer]:
+          - generic [ref=f4e135]:
+            - text: 40 × 50
+            - generic [ref=f4e136]: margins 5 / 5 cm
+          - generic [ref=f4e137]: Best match
+        - button "40 × 40 margins 5 / 0 cm" [ref=f4e138] [cursor=pointer]:
+          - generic [ref=f4e141]:
+            - text: 40 × 40
+            - generic [ref=f4e142]: margins 5 / 0 cm
+        - button "30 × 40 margins 0 / 0 cm" [ref=f4e143] [cursor=pointer]:
+          - generic [ref=f4e146]:
+            - text: 30 × 40
+            - generic [ref=f4e147]: margins 0 / 0 cm
+        - button "50 × 60 margins 10 / 10 cm" [ref=f4e148] [cursor=pointer]:
+          - generic [ref=f4e151]:
+            - text: 50 × 60
+            - generic [ref=f4e152]: margins 10 / 10 cm
+        - button "50 × 70 margins 10 / 15 cm" [ref=f4e153] [cursor=pointer]:
+          - generic [ref=f4e156]:
+            - text: 50 × 70
+            - generic [ref=f4e157]: margins 10 / 15 cm
+        - button "60 × 60 margins 15 / 10 cm" [ref=f4e158] [cursor=pointer]:
+          - generic [ref=f4e161]:
+            - text: 60 × 60
+            - generic [ref=f4e162]: margins 15 / 10 cm
+        - button "60 × 80 margins 15 / 20 cm" [ref=f4e163] [cursor=pointer]:
+          - generic [ref=f4e166]:
+            - text: 60 × 80
+            - generic [ref=f4e167]: margins 15 / 20 cm
+        - button "59.4 × 84.1 (DIN A1) margins 14.7 / 22 cm" [ref=f4e168] [cursor=pointer]:
+          - generic [ref=f4e171]:
+            - text: 59.4 × 84.1 (DIN A1)
+            - generic [ref=f4e172]: margins 14.7 / 22 cm
+        - button "70 × 100 margins 20 / 30 cm" [ref=f4e173] [cursor=pointer]:
+          - generic [ref=f4e176]:
+            - text: 70 × 100
+            - generic [ref=f4e177]: margins 20 / 30 cm
+        - button "24 × 30 artwork doesn't fit too small" [ref=f4e178]:
+          - generic [ref=f4e181]:
+            - text: 24 × 30
+            - generic [ref=f4e182]: artwork doesn't fit
+          - generic [ref=f4e183]: too small
+        - button "25 × 25 artwork doesn't fit too small" [ref=f4e184]:
+          - generic [ref=f4e187]:
+            - text: 25 × 25
+            - generic [ref=f4e188]: artwork doesn't fit
+          - generic [ref=f4e189]: too small
+        - button "30 × 30 artwork doesn't fit too small" [ref=f4e190]:
+          - generic [ref=f4e193]:
+            - text: 30 × 30
+            - generic [ref=f4e194]: artwork doesn't fit
+          - generic [ref=f4e195]: too small
+      - button "Custom size × cm" [ref=f4e196] [cursor=pointer]:
+        - generic [ref=f4e199]:
+          - text: Custom size
+          - generic [ref=f4e200]:
+            - spinbutton [ref=f4e201]: "40"
+            - text: ×
+            - spinbutton [ref=f4e202]: "50"
+            - text: cm
+    - generic [ref=f4e203]:
+      - heading "What to buy" [level=2] [ref=f4e204]
+      - generic [ref=f4e205]:
+        - generic [ref=f4e206]: 40 × 50 cm — portrait
+        - list [ref=f4e207]:
+          - listitem [ref=f4e208]: Frame outer size ≈ 44 × 54 cm
+          - listitem [ref=f4e209]: "Passe-partout sheet: 40 × 50 cm"
+          - listitem [ref=f4e210]: "Window (bevel cut): 29.4 × 39.4 cm (0.3 cm overlap/side)"
+          - listitem [ref=f4e211]: "Margins: 5 sides · 5 top · 5 bottom cm"

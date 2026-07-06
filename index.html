@@ -45,6 +45,8 @@
     position:absolute; inset:0; pointer-events:none; z-index:2;
     background:linear-gradient(115deg, rgba(255,255,255,.13) 0%, rgba(255,255,255,.03) 45%, rgba(255,255,255,0) 62%);
   }
+  .wtex{position:absolute; pointer-events:none; display:none; z-index:1;
+    background-repeat:repeat; background-blend-mode:soft-light}
   #mat{position:absolute; inset:0; overflow:hidden}
   #artHole{position:absolute; background:#fff}
   #artHole img{width:100%; height:100%; display:block; object-fit:fill}
@@ -71,6 +73,28 @@
     font:inherit; font-size:14px; background:#fff; color:var(--ink);
   }
   input[type=number]:focus{outline:2px solid var(--accent); border-color:transparent}
+
+  /* sliders */
+  .slider-field{margin-bottom:14px}
+  .slider-field:last-child{margin-bottom:0}
+  .sf-label{display:flex; justify-content:space-between; align-items:baseline;
+    font-size:13px; color:var(--sub); margin-bottom:8px}
+  .sf-val{font-size:13.5px; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums}
+  input[type=range]{
+    -webkit-appearance:none; appearance:none; width:100%; height:6px; border-radius:999px;
+    background:linear-gradient(to right, var(--accent) var(--fill,50%), var(--line) var(--fill,50%));
+    outline:none; cursor:pointer; margin:0;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none; width:18px; height:18px; border-radius:50%;
+    background:var(--accent); border:2px solid #fff; box-shadow:0 1px 3px rgba(0,0,0,.28); cursor:pointer;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:18px; height:18px; border-radius:50%; background:var(--accent);
+    border:2px solid #fff; box-shadow:0 1px 3px rgba(0,0,0,.28); cursor:pointer;
+  }
+  input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 4px rgba(39,51,214,.25)}
+  input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 4px rgba(39,51,214,.25)}
   .btn{
     font:inherit; font-size:13.5px; font-weight:600; padding:9px 16px; border-radius:999px;
     border:1px solid var(--line); background:#fff; color:var(--ink); cursor:pointer;
@@ -108,7 +132,7 @@
   .badge{font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:999px; background:#15151c; color:#fff; white-space:nowrap}
   .badge.good{background:#0d7a4f}
   .badge.dead{background:transparent; color:var(--sub); border:1px solid var(--line)}
-  .customSize{display:flex; gap:8px; align-items:center; padding:4px 2px 0; font-size:13px; color:var(--sub)}
+  .customSize{display:flex; flex-direction:column; gap:8px; padding:8px 2px 2px; font-size:13px; color:var(--sub)}
 
   /* summary */
   #summary{background:#eef0ff; border:1px solid #d5d9f6}
@@ -132,10 +156,12 @@
           <div id="mat"><div id="artHole"><img id="artImg" alt="artwork"><div class="depth"></div></div></div>
           <div id="glass"></div>
         </div>
+        <div class="wtex" id="wTop"></div><div class="wtex" id="wBottom"></div>
+        <div class="wtex" id="wLeft"></div><div class="wtex" id="wRight"></div>
       </div>
     </div>
     <div id="dims"></div>
-    <div id="hint3d">Drag the frame to rotate in 3D &nbsp;·&nbsp; double-click to reset</div>
+    <div id="hint3d">Drag to rotate in 3D &nbsp;·&nbsp; scroll to zoom &nbsp;·&nbsp; double-click to reset</div>
     <div id="warnStage"></div>
   </section>
 
@@ -145,25 +171,30 @@
 
     <div class="card">
       <h2>Artwork</h2>
-      <div class="row" style="margin-bottom:10px">
+      <div class="row" style="margin-bottom:14px">
         <button class="btn primary" id="uploadBtn">Upload image</button>
         <button class="btn" id="clearImg">Reset</button>
+        <button class="btn" id="matchRatio" title="Set height from the image's aspect ratio">Match image ratio</button>
         <input type="file" id="fileInput" accept="image/*" hidden>
       </div>
-      <div class="row">
-        <label class="f">W <input type="number" id="artW" min="1" max="200" step="0.5"> cm</label>
-        <label class="f">H <input type="number" id="artH" min="1" max="200" step="0.5"> cm</label>
-        <button class="btn" id="matchRatio" title="Set height from the image's aspect ratio">Match image ratio</button>
+      <div class="slider-field">
+        <label class="sf-label" for="artW">Width <output class="sf-val" id="artWOut"></output></label>
+        <input type="range" id="artW" min="5" max="120" step="0.5">
+      </div>
+      <div class="slider-field">
+        <label class="sf-label" for="artH">Height <output class="sf-val" id="artHOut"></output></label>
+        <input type="range" id="artH" min="5" max="120" step="0.5">
       </div>
       <p class="hint">You can also drag &amp; drop an image onto the preview.</p>
     </div>
 
     <div class="card">
       <h2>Passe-partout</h2>
-      <div class="row" style="margin-bottom:12px">
-        <label class="f">Desired margin <input type="number" id="marginTarget" min="0" max="30" step="0.5"> cm</label>
-        <label class="f" style="gap:8px"><input type="checkbox" id="optical"> optical centering</label>
+      <div class="slider-field">
+        <label class="sf-label" for="marginTarget">Desired margin <output class="sf-val" id="marginTargetOut"></output></label>
+        <input type="range" id="marginTarget" min="0" max="20" step="0.5">
       </div>
+      <label class="f" style="gap:8px; margin-bottom:14px"><input type="checkbox" id="optical"> optical centering</label>
       <div class="sw-grid" id="ppSwatches"></div>
       <div class="customColor">Custom <input type="color" id="ppCustom"></div>
       <p class="hint" id="idealHint"></p>
@@ -171,9 +202,13 @@
 
     <div class="card">
       <h2>Frame</h2>
-      <div class="row" style="margin-bottom:12px">
-        <label class="f">Moulding width <input type="number" id="moulding" min="0.5" max="8" step="0.5"> cm</label>
-        <label class="f">Depth <input type="number" id="depthIn" min="0.5" max="10" step="0.5"> cm</label>
+      <div class="slider-field">
+        <label class="sf-label" for="moulding">Moulding width <output class="sf-val" id="mouldingOut"></output></label>
+        <input type="range" id="moulding" min="0.5" max="8" step="0.5">
+      </div>
+      <div class="slider-field" style="margin-bottom:14px">
+        <label class="sf-label" for="depthIn">Depth <output class="sf-val" id="depthInOut"></output></label>
+        <input type="range" id="depthIn" min="0.5" max="8" step="0.5">
       </div>
       <div class="sw-grid" id="frSwatches"></div>
       <div class="customColor">Custom <input type="color" id="frCustom"></div>
@@ -182,15 +217,21 @@
     <div class="card">
       <h2>Frame size (your shop)</h2>
       <div id="frameList"></div>
-      <button class="fr-row" id="customRow">
+      <div class="fr-row" id="customRow">
         <div class="fr-ico"><div style="width:20px;height:20px"></div></div>
         <div class="fr-main"><b>Custom size</b>
-          <small class="customSize">
-            <input type="number" id="customW" min="5" max="300" step="0.1"> ×
-            <input type="number" id="customH" min="5" max="300" step="0.1"> cm
-          </small>
+          <div class="customSize">
+            <div class="slider-field" style="margin-bottom:0">
+              <label class="sf-label" for="customW">Width <output class="sf-val" id="customWOut"></output></label>
+              <input type="range" id="customW" min="10" max="200" step="0.5">
+            </div>
+            <div class="slider-field" style="margin-bottom:0">
+              <label class="sf-label" for="customH">Height <output class="sf-val" id="customHOut"></output></label>
+              <input type="range" id="customH" min="10" max="200" step="0.5">
+            </div>
+          </div>
         </div>
-      </button>
+      </div>
     </div>
 
     <div class="card" id="summary">
@@ -217,6 +258,34 @@ const PP_COLORS = [
   ["Black","#1f1f1f"],["Navy","#2e4763"],["Sage","#a8b8a0"],["Dusty Pink","#d8b4b0"],
 ];
 
+/* frames whose colour names read as real timber get a procedural wood grain */
+const WOOD_HEX = new Set(
+  FRAME_COLORS.filter(([n])=>/oak|walnut|wood|pine|teak|maple|beech|mahogany/i.test(n))
+              .map(([,h])=>h.toLowerCase())
+);
+/* fractalNoise stretched along one axis reads as long timber grain; blended
+   (soft-light) over the frame colour so it works for any oak shade */
+function woodNoise(horizontal){
+  const bf = horizontal ? "0.011 0.13" : "0.13 0.011";
+  const svg =
+  `<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'>
+    <filter id='w'>
+      <feTurbulence type='fractalNoise' baseFrequency='${bf}' numOctaves='4' seed='11' stitchTiles='stitch'/>
+      <feColorMatrix type='saturate' values='0'/>
+      <feComponentTransfer>
+        <feFuncR type='linear' slope='0.7' intercept='0.15'/>
+        <feFuncG type='linear' slope='0.7' intercept='0.15'/>
+        <feFuncB type='linear' slope='0.7' intercept='0.15'/>
+        <feFuncA type='linear' slope='0' intercept='1'/>
+      </feComponentTransfer>
+    </filter>
+    <rect width='300' height='300' filter='url(#w)'/>
+  </svg>`;
+  return "url(\"data:image/svg+xml;utf8," + encodeURIComponent(svg) + "\")";
+}
+const woodH = woodNoise(true);   // grain runs horizontally (top/bottom rails)
+const woodV = woodNoise(false);  // grain runs vertically   (left/right stiles)
+
 const PLACEHOLDER = "data:image/svg+xml;utf8," + encodeURIComponent(
 `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 800'>
   <rect width='600' height='800' fill='#e9e1d2'/>
@@ -235,6 +304,7 @@ let state = {
   customW:40, customH:50,
 };
 let rot = {x:0, y:0};                // 3D view angle (deg), not persisted
+let zoom = 0.85;                     // 3D view zoom, not persisted
 let imgData = null;                  // data URI of uploaded artwork
 let imgRatio = 800/600;              // h/w of uploaded image
 
@@ -321,7 +391,7 @@ function renderPreview(){
   const m = margins(cur);
   const outerW = cur.w + 2*state.moulding, outerH = cur.h + 2*state.moulding;
   const r = stage.getBoundingClientRect();
-  const s = Math.min((r.width-140)/outerW, (r.height-210)/outerH);
+  const s = Math.min((r.width-140)/outerW, (r.height-210)/outerH) * zoom;
   const dpx = state.depth*s;
   const fc = state.frameColor;
 
@@ -338,13 +408,42 @@ function renderPreview(){
   // extruded side faces (extend backward from the front plane)
   const face=(id,css)=>Object.assign($(id).style,css);
   face("fLeft",  {left:"0", top:"0", width:dpx+"px", height:"100%",
-    transformOrigin:"left center", transform:"rotateY(90deg)", background:shade(fc,-12)});
+    transformOrigin:"left center", transform:"rotateY(90deg)", backgroundColor:shade(fc,-12)});
   face("fRight", {left:"100%", top:"0", width:dpx+"px", height:"100%",
-    transformOrigin:"left center", transform:"rotateY(90deg)", background:shade(fc,-25)});
+    transformOrigin:"left center", transform:"rotateY(90deg)", backgroundColor:shade(fc,-25)});
   face("fTop",   {left:"0", top:"0", width:"100%", height:dpx+"px",
-    transformOrigin:"center top", transform:"rotateX(-90deg)", background:shade(fc,10)});
+    transformOrigin:"center top", transform:"rotateX(-90deg)", backgroundColor:shade(fc,10)});
   face("fBottom",{left:"0", top:"100%", width:"100%", height:dpx+"px",
-    transformOrigin:"center top", transform:"rotateX(-90deg)", background:shade(fc,-35)});
+    transformOrigin:"center top", transform:"rotateX(-90deg)", backgroundColor:shade(fc,-35)});
+
+  // ---- wood grain on timber frames -----------------------------------
+  const isWood = WOOD_HEX.has(fc.toLowerCase());
+  const mw = state.moulding*s;                        // moulding width in px
+  const faceGrain = {fLeft:woodV, fRight:woodV, fTop:woodH, fBottom:woodH};
+  for(const id in faceGrain){
+    const st=$(id).style;
+    st.backgroundImage = isWood ? faceGrain[id] : "none";
+    st.backgroundBlendMode = isWood ? "soft-light" : "normal";
+    st.backgroundRepeat = "repeat";
+  }
+  // front rails, mitred at the corners so the grain turns like a real frame
+  const rail=(id,shadePct,img,box,clip)=>{
+    const st=$(id).style;
+    if(!isWood){ st.display="none"; return; }
+    Object.assign(st, box);
+    st.display="block";
+    st.clipPath = clip;
+    st.backgroundColor = shade(fc,shadePct);
+    st.backgroundImage = img;
+  };
+  rail("wTop",    14, woodH, {left:"0",top:"0",right:"auto",bottom:"auto",width:"100%",height:mw+"px"},
+       `polygon(0 0, 100% 0, calc(100% - ${mw}px) 100%, ${mw}px 100%)`);
+  rail("wBottom",-16, woodH, {left:"0",bottom:"0",top:"auto",right:"auto",width:"100%",height:mw+"px"},
+       `polygon(${mw}px 0, calc(100% - ${mw}px) 0, 100% 100%, 0 100%)`);
+  rail("wLeft",    5, woodV, {left:"0",top:"0",right:"auto",bottom:"auto",width:mw+"px",height:"100%"},
+       `polygon(0 0, 100% ${mw}px, 100% calc(100% - ${mw}px), 0 100%)`);
+  rail("wRight",  -8, woodV, {right:"0",top:"0",left:"auto",bottom:"auto",width:mw+"px",height:"100%"},
+       `polygon(0 ${mw}px, 100% 0, 100% 100%, 0 calc(100% - ${mw}px))`);
 
   mat.style.background = state.ppColor;
   mat.style.boxShadow  = `inset 0 ${Math.max(1,.12*s)}px ${Math.max(3,.5*s)}px rgba(0,0,0,.28)`;
@@ -438,6 +537,13 @@ function renderSwatches(){
       const b=document.createElement("button");
       b.className="sw"+(state[key].toLowerCase()===hex?" active":"");
       b.innerHTML=`<div class="dot" style="background:${hex}"></div><span>${name}</span>`;
+      if(WOOD_HEX.has(hex.toLowerCase())){
+        const d=b.querySelector(".dot");
+        d.style.backgroundImage=woodH;
+        d.style.backgroundBlendMode="soft-light";
+        d.style.backgroundSize="42px 11px";
+        d.style.backgroundRepeat="repeat";
+      }
       b.onclick=()=>{ state[key]=hex; save(); renderAll(); };
       host.appendChild(b);
     }
@@ -447,11 +553,25 @@ function renderSwatches(){
   build("ppSwatches", PP_COLORS, "ppColor", "ppCustom");
 }
 
+const SLIDER_IDS = ["artW","artH","marginTarget","moulding","depthIn","customW","customH"];
+function fillTrack(el){
+  const mn=parseFloat(el.min), mx=parseFloat(el.max), v=parseFloat(el.value);
+  const pct=Math.max(0,Math.min(100,((v-mn)/(mx-mn))*100));
+  el.style.setProperty("--fill", pct+"%");
+}
+function setOut(id){
+  const el=$(id); if(!el) return;
+  const out=$(id+"Out");
+  if(out) out.textContent = fmt(parseFloat(el.value))+" cm";
+  fillTrack(el);
+}
+
 function renderInputs(){
   $("artW").value=state.artW; $("artH").value=state.artH;
   $("marginTarget").value=state.marginTarget; $("optical").checked=state.optical;
   $("moulding").value=state.moulding; $("depthIn").value=state.depth;
   $("customW").value=state.customW; $("customH").value=state.customH;
+  SLIDER_IDS.forEach(setOut);
 }
 
 function renderAll(){ renderSwatches(); renderList(); renderSummary(); renderPreview(); }
@@ -463,13 +583,14 @@ function num(id, key, min, max){
     if(isNaN(v)||v<min||v>max) return;
     state[key]=v;
     if(id==="customW"||id==="customH") state.sel={type:"custom"};
+    setOut(id);
     save(); renderAll();
   });
 }
-num("artW","artW",1,200); num("artH","artH",1,200);
-num("marginTarget","marginTarget",0,30); num("moulding","moulding",0.5,8);
-num("depthIn","depth",0.5,10);
-num("customW","customW",5,300); num("customH","customH",5,300);
+num("artW","artW",5,120); num("artH","artH",5,120);
+num("marginTarget","marginTarget",0,20); num("moulding","moulding",0.5,8);
+num("depthIn","depth",0.5,8);
+num("customW","customW",10,200); num("customH","customH",10,200);
 $("optical").addEventListener("change",e=>{ state.optical=e.target.checked; save(); renderAll(); });
 $("customRow").addEventListener("click",()=>{ state.sel={type:"custom"}; save(); renderAll(); });
 $("frCustom").addEventListener("input",e=>{ state.frameColor=e.target.value; save(); renderAll(); });
@@ -498,13 +619,35 @@ window.addEventListener("pointermove",e=>{
   applyRot();
 });
 window.addEventListener("pointerup",()=>{ dragging=null; $("frameBox").classList.remove("grabbing"); });
-stage.addEventListener("dblclick",()=>{ rot={x:0,y:0}; applyRot(); });
+stage.addEventListener("dblclick",()=>{ rot={x:0,y:0}; zoom=0.85; applyRot(); renderPreview(); });
 
-stage.addEventListener("dragover",e=>{e.preventDefault(); stage.classList.add("drag");});
-stage.addEventListener("dragleave",()=>stage.classList.remove("drag"));
-stage.addEventListener("drop",e=>{
-  e.preventDefault(); stage.classList.remove("drag");
-  const f=[...e.dataTransfer.files].find(f=>f.type.startsWith("image/"));
+/* scroll/pinch to zoom the 3D preview */
+stage.addEventListener("wheel",e=>{
+  e.preventDefault();
+  zoom = clamp(zoom - e.deltaY*0.0015, 0.4, 2);
+  renderPreview();
+}, {passive:false});
+
+/* drag & drop: listen on the whole window so a drop is never missed, and
+   always preventDefault so a stray drop never navigates the tab away to
+   the raw image file (stage-only listeners let that happen whenever the
+   file landed a few pixels outside the stage element, e.g. over the panel) */
+let dragDepth = 0;
+window.addEventListener("dragenter",e=>{
+  e.preventDefault();
+  dragDepth++;
+  stage.classList.add("drag");
+});
+window.addEventListener("dragover",e=>{ e.preventDefault(); });
+window.addEventListener("dragleave",e=>{
+  dragDepth = Math.max(0, dragDepth-1);
+  if(dragDepth===0) stage.classList.remove("drag");
+});
+window.addEventListener("drop",e=>{
+  e.preventDefault();
+  dragDepth = 0;
+  stage.classList.remove("drag");
+  const f=[...(e.dataTransfer ? e.dataTransfer.files : [])].find(f=>f.type.startsWith("image/"));
   if(f) loadFile(f);
 });
 
@@ -529,6 +672,12 @@ function loadFile(file){
   };
   rd.readAsDataURL(file);
 }
+
+// keep older saved settings within the slider ranges
+(function clampState(){
+  const B={artW:[5,120],artH:[5,120],marginTarget:[0,20],moulding:[0.5,8],depth:[0.5,8],customW:[10,200],customH:[10,200]};
+  for(const k in B) state[k]=Math.min(B[k][1],Math.max(B[k][0],state[k]));
+})();
 
 new ResizeObserver(()=>renderPreview()).observe(stage);
 renderInputs(); renderAll();
