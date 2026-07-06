@@ -10,26 +10,7 @@
 <body>
 <div class="app">
 
-  <section class="stage" id="stage">
-    <div id="scene">
-      <div id="frameShadow"></div>
-      <div id="frameBox">
-        <div class="face" id="fTop"></div><div class="face" id="fBottom"></div>
-        <div class="face" id="fLeft"></div><div class="face" id="fRight"></div>
-        <div id="frameFront">
-          <div id="mat"><div id="artHole"><img id="artImg" alt="artwork"><div class="depth"></div></div></div>
-          <div id="glass"></div>
-        </div>
-        <div class="wtex" id="wTop"></div><div class="wtex" id="wBottom"></div>
-        <div class="wtex" id="wLeft"></div><div class="wtex" id="wRight"></div>
-      </div>
-    </div>
-    <div id="dims"></div>
-    <div id="hint3d">Drag to rotate in 3D &nbsp;·&nbsp; scroll to zoom &nbsp;·&nbsp; double-click to reset</div>
-    <div id="warnStage"></div>
-  </section>
-
-  <aside class="panel">
+  <aside class="panel panel-left">
     <h1>Framing Studio</h1>
     <p class="tag">Preview your artwork with frame &amp; passe-partout — sizes from your local shop.</p>
 
@@ -64,12 +45,10 @@
         <label class="sf-label" for="moulding">Moulding width <output class="sf-val" id="mouldingOut"></output></label>
         <input type="range" id="moulding" min="0.5" max="8" step="0.5">
       </div>
-      <div class="slider-field" style="margin-bottom:14px">
+      <div class="slider-field">
         <label class="sf-label" for="depthIn">Depth <output class="sf-val" id="depthInOut"></output></label>
         <input type="range" id="depthIn" min="0.5" max="8" step="0.5">
       </div>
-      <div class="sw-grid" id="frSwatches"></div>
-      <div class="customColor">Custom <input type="color" id="frCustom"></div>
     </div>
 
     <div class="card">
@@ -82,10 +61,8 @@
           <label class="sf-label" for="marginTarget">Desired margin <output class="sf-val" id="marginTargetOut"></output></label>
           <input type="range" id="marginTarget" min="0" max="20" step="0.1">
         </div>
-        <label class="f" style="gap:8px; margin-bottom:14px"><input type="checkbox" id="optical"> optical centering</label>
+        <label class="f" style="gap:8px"><input type="checkbox" id="optical"> optical centering</label>
       </div>
-      <div class="sw-grid" id="ppSwatches"></div>
-      <div class="customColor">Custom <input type="color" id="ppCustom"></div>
       <p class="hint" id="idealHint"></p>
     </div>
 
@@ -107,6 +84,37 @@
           </div>
         </div>
       </div>
+    </div>
+  </aside>
+
+  <section class="stage" id="stage">
+    <div id="scene">
+      <div id="frameShadow"></div>
+      <div id="frameBox">
+        <div class="face" id="fTop"></div><div class="face" id="fBottom"></div>
+        <div class="face" id="fLeft"></div><div class="face" id="fRight"></div>
+        <div id="frameFront">
+          <div id="mat"><div id="artHole"><img id="artImg" alt="artwork"><div class="depth"></div></div></div>
+          <div id="glass"></div>
+        </div>
+        <div class="wtex" id="wTop"></div><div class="wtex" id="wBottom"></div>
+        <div class="wtex" id="wLeft"></div><div class="wtex" id="wRight"></div>
+      </div>
+    </div>
+    <div id="dims"></div>
+    <div id="hint3d">Drag to rotate in 3D &nbsp;·&nbsp; scroll to zoom &nbsp;·&nbsp; double-click to reset</div>
+    <div id="warnStage"></div>
+  </section>
+
+  <aside class="panel panel-right">
+    <div class="card">
+      <h2>Colours</h2>
+      <h3 class="sub-h">Frame</h3>
+      <div class="sw-grid" id="frSwatches"></div>
+      <div class="customColor">Custom <input type="color" id="frCustom"></div>
+      <h3 class="sub-h" style="margin-top:16px">Passe-partout</h3>
+      <div class="sw-grid" id="ppSwatches"></div>
+      <div class="customColor">Custom <input type="color" id="ppCustom"></div>
     </div>
 
     <div class="card" id="summary">
