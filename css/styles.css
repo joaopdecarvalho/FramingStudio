@@ -7,6 +7,7 @@ html,body{height:100%}
 body{
   font-family:"DM Sans", system-ui, -apple-system, sans-serif;
   color:var(--ink); background:var(--panel);
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
 }
 .app{display:grid; grid-template-columns:360px 1fr 360px; grid-template-rows:100vh; height:100vh}
 .panel-left{grid-column:1; grid-row:1}
@@ -36,7 +37,8 @@ body{
 }
 #frameBox{position:absolute; inset:0; transform-style:preserve-3d; cursor:grab; touch-action:none}
 #frameBox.grabbing{cursor:grabbing}
-#frameFront{position:absolute; inset:0; border-style:solid; transform-style:preserve-3d}
+#frameFront{position:absolute; inset:0; border-style:solid; transform-style:preserve-3d;
+  outline:1px solid transparent /* force sub-pixel anti-aliasing on 3D faces */}
 .face{position:absolute}
 #glass{
   position:absolute; inset:0; pointer-events:none; z-index:2;
@@ -44,9 +46,9 @@ body{
 }
 .wtex{position:absolute; pointer-events:none; display:none; z-index:1;
   background-repeat:repeat; background-blend-mode:soft-light}
-#mat{position:absolute; inset:0; overflow:hidden}
-#artHole{position:absolute; background:#fff; overflow:hidden}
-#artHole img{position:absolute; display:block; object-fit:fill}
+#mat{position:absolute; inset:0; overflow:hidden; backface-visibility:hidden}
+#artHole{position:absolute; background:#fff; overflow:hidden; backface-visibility:hidden}
+#artHole img{position:absolute; display:block; object-fit:fill; image-rendering:auto}
 #artHole .depth{position:absolute; inset:0; box-shadow:inset 0 2px 5px rgba(0,0,0,.22); pointer-events:none}
 #dims{
   margin-top:26px; font-size:13px; color:var(--sub); text-align:center; line-height:1.7;

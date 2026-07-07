@@ -80,7 +80,7 @@ function renderPreview(){
   hole.style.top    = m.top*s+"px";
   hole.style.width  = m.winW*s+"px";
   hole.style.height = m.winH*s+"px";
-  hole.style.boxShadow = `0 0 0 ${Math.max(1.5,.12*s)}px #fbf8ef`;   // bevel edge
+  hole.style.boxShadow = `0 0 ${Math.max(.5,.04*s)}px ${Math.max(1.5,.12*s)}px #fbf8ef`;   // bevel edge (slight blur for AA)
   const img=$("artImg");
   img.style.width  = state.artW*s+"px";
   img.style.height = state.artH*s+"px";
@@ -226,7 +226,7 @@ function renderSwatches(){
         const d=b.querySelector(".dot");
         d.style.backgroundImage=woodH;
         d.style.backgroundBlendMode="soft-light";
-        d.style.backgroundSize="42px 11px";
+        d.style.backgroundSize="50px 14px";
         d.style.backgroundRepeat="repeat";
       }
       b.onclick=()=>{ state[key]=hex; save(); renderAll(); };

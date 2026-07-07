@@ -49,23 +49,53 @@ const WOOD_HEX = new Set(
   FRAME_COLORS.filter(([n])=>/oak|walnut|wood|pine|teak|maple|beech|mahogany/i.test(n))
               .map(([,h])=>h.toLowerCase())
 );
-/* fractalNoise stretched along one axis reads as long timber grain; blended
-   (soft-light) over the frame colour so it works for any oak shade */
+/* Multi-layered procedural wood grain composited entirely within SVG filters
+   (no CSS mix-blend-mode — reliable when used as a CSS background-image).
+   Three noise layers blended together: coarse grain, fine striations, micro-texture. */
 function woodNoise(horizontal){
-  const bf = horizontal ? "0.011 0.13" : "0.13 0.011";
+  const grain  = horizontal ? "0.008 0.18"  : "0.18 0.008";   // main grain lines
+  const striae = horizontal ? "0.025 0.55"  : "0.55 0.025";   // fine striations
+  const micro  = horizontal ? "0.11 2.2"    : "2.2 0.11";     // micro-texture across grain
+  // High-res 800×800 canvas so the texture stays crisp even when zoomed in
   const svg =
-  `<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'>
-    <filter id='w'>
-      <feTurbulence type='fractalNoise' baseFrequency='${bf}' numOctaves='4' seed='11' stitchTiles='stitch'/>
-      <feColorMatrix type='saturate' values='0'/>
-      <feComponentTransfer>
-        <feFuncR type='linear' slope='0.7' intercept='0.15'/>
-        <feFuncG type='linear' slope='0.7' intercept='0.15'/>
-        <feFuncB type='linear' slope='0.7' intercept='0.15'/>
-        <feFuncA type='linear' slope='0' intercept='1'/>
+  `<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800'>
+    <filter id='w' x='0' y='0' width='100%' height='100%'>
+      <!-- Coarse grain -->
+      <feTurbulence type='fractalNoise' baseFrequency='${grain}' numOctaves='5' seed='7' stitchTiles='stitch' result='t1'/>
+      <feColorMatrix in='t1' type='saturate' values='0' result='gray1'/>
+      <feComponentTransfer in='gray1' result='grain'>
+        <feFuncR type='linear' slope='0.55' intercept='0.22'/>
+        <feFuncG type='linear' slope='0.55' intercept='0.22'/>
+        <feFuncB type='linear' slope='0.55' intercept='0.22'/>
       </feComponentTransfer>
+      <!-- Fine striations (dark lines between grain bands) -->
+      <feTurbulence type='fractalNoise' baseFrequency='${striae}' numOctaves='4' seed='19' stitchTiles='stitch' result='t2'/>
+      <feColorMatrix in='t2' type='saturate' values='0' result='gray2'/>
+      <feComponentTransfer in='gray2' result='striae'>
+        <feFuncR type='linear' slope='0.30' intercept='0.35'/>
+        <feFuncG type='linear' slope='0.30' intercept='0.35'/>
+        <feFuncB type='linear' slope='0.30' intercept='0.35'/>
+      </feComponentTransfer>
+      <!-- Micro-texture (surface roughness) -->
+      <feTurbulence type='fractalNoise' baseFrequency='${micro}' numOctaves='3' seed='31' stitchTiles='stitch' result='t3'/>
+      <feColorMatrix in='t3' type='saturate' values='0' result='gray3'/>
+      <feComponentTransfer in='gray3' result='texture'>
+        <feFuncR type='linear' slope='0.16' intercept='0.42'/>
+        <feFuncG type='linear' slope='0.16' intercept='0.42'/>
+        <feFuncB type='linear' slope='0.16' intercept='0.42'/>
+      </feComponentTransfer>
+      <!-- Composite: multiply striae over grain, then overlay texture -->
+      <feBlend in='grain' in2='striae' mode='multiply' result='layered'/>
+      <feBlend in='texture' in2='layered' mode='soft-light' result='wood'/>
+      <!-- Subtle warm tint modulated by the grain -->
+      <feColorMatrix in='grain' type='matrix' result='tint'
+        values='0 0 0 0 0.96
+                0 0 0 0 0.78
+                0 0 0 0 0.52
+                0 0 0 0.12 0'/>
+      <feBlend in='wood' in2='tint' mode='screen'/>
     </filter>
-    <rect width='300' height='300' filter='url(#w)'/>
+    <rect width='800' height='800' filter='url(#w)'/>
   </svg>`;
   return "url(\"data:image/svg+xml;utf8," + encodeURIComponent(svg) + "\")";
 }
